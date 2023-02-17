@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { EditStudentMode } from '../enums/edit-student-mode';
 
 @Component({
   selector: 'app-edit-form-page',
@@ -7,4 +8,16 @@ import { Component } from '@angular/core';
 })
 export class EditFormPageComponent {
 
+  @Input()
+  editstudentMode = EditStudentMode.EDIT_DATA;
+
+  @Input()
+  studentId = "";
+
+  @Output()
+  pageClosed = new EventEmitter<void>();
+
+  back(): void {
+    this.pageClosed.emit();
+  }
 }
