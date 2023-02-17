@@ -2,8 +2,7 @@
 <div>
     <ul>
         <li *ngFor="let student of students, let i = index">
-            <app-student-entry [index]="i" [student]="student" (studentChosen)="showDetails($event)">
-            </app-student-entry>
+            <app-student-entry [index]="i" [student]="student"></app-student-entry>
         </li>
     </ul>
 </div>

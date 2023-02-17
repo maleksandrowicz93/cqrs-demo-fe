@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
 
 @Component({
@@ -7,9 +7,6 @@ import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-
-  @Output()
-  studentChosen = new EventEmitter<string>();
 
   students = new Array<StudentIdentifiaction>();
 
@@ -43,8 +40,4 @@ export class MainPageComponent implements OnInit {
 
   nextUsers(): void { }
   previousUsers(): void { }
-
-  showDetails(studentId: string): void {
-    this.studentChosen.emit(studentId);
-  }
 }

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { EditStudentMode } from '../enums/edit-student-mode';
+import { Component } from '@angular/core';
+import { Page } from '../enums/page';
+import { PageLoaderService } from '../services/page-loader.service';
 
 @Component({
   selector: 'app-edit-form-page',
@@ -8,16 +9,11 @@ import { EditStudentMode } from '../enums/edit-student-mode';
 })
 export class EditFormPageComponent {
 
-  @Input()
-  editstudentMode = EditStudentMode.EDIT_DATA;
+  studentId = this.pageLoaderService.getCurrentStudentId();
 
-  @Input()
-  studentId = "";
-
-  @Output()
-  pageClosed = new EventEmitter<void>();
+  constructor(private pageLoaderService: PageLoaderService) {}
 
   back(): void {
-    this.pageClosed.emit();
+    this.pageLoaderService.setCurrentPage(Page.USER_PAGE);
   }
 }

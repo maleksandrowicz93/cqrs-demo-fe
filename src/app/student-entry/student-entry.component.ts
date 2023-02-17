@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Page } from '../enums/page';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
+import { PageLoaderService } from '../services/page-loader.service';
 
 @Component({
   selector: 'app-student-entry',
@@ -14,10 +16,10 @@ export class StudentEntryComponent {
   @Input()
   student = {} as StudentIdentifiaction;
 
-  @Output()
-  studentChosen = new EventEmitter<string>();
+  constructor(private pageLoaderService: PageLoaderService) {}
 
   showDetails(studentId: string): void {
-    this.studentChosen.emit(studentId);
+    this.pageLoaderService.setCurrentStudentId(studentId);
+    this.pageLoaderService.setCurrentPage(Page.USER_PAGE);
   }
 }

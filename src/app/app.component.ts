@@ -1,34 +1,23 @@
-import { Component } from '@angular/core';
-import { EditStudentMode } from './enums/edit-student-mode';
+import { Component, OnInit } from '@angular/core';
 import { Page } from './enums/page';
+import { PageLoaderService } from './services/page-loader.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [PageLoaderService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  currentPage = Page.MAIN_PAGE;
   page = Page;
+  currentPage = Page.MAIN_PAGE;
   studentId = "";
-  editstudentMode = EditStudentMode.EDIT_DATA;
 
-  showDetails(studentId: string): void {
-    this.studentId = studentId;
-    this.currentPage = Page.USER_PAGE;
-  }
+  constructor(private pageLoaderService: PageLoaderService) {}
 
-  showMainPage(): void {
-    this.currentPage = Page.MAIN_PAGE;
-  }
-
-  showEditForm(editMode: EditStudentMode): void {
-    this.editstudentMode = editMode;
-    this.currentPage = Page.EDIT_FORM;
-  }
-
-  backToDetails(): void {
-    this.currentPage = Page.USER_PAGE;
+  ngOnInit(): void {
+    this.pageLoaderService.getCurrentPage().subscribe(page => this.currentPage = page);
+    this.pageLoaderService.getCurrentStudentId().subscribe(id => this.studentId = id);
   }
 }
