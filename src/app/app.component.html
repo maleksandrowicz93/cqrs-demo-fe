@@ -1,10 +1,12 @@
 <div>
   <ng-container [ngSwitch]="currentPage">
     <div *ngSwitchCase="page.USER_PAGE">
-      <app-student-page [studentId]="studentId" (pageClosed)="showMainPage()"></app-student-page>
+      <app-student-page [studentId]="studentId" (pageClosed)="showMainPage()" (editFormCalled)="showEditForm($event)">
+      </app-student-page>
     </div>
     <div *ngSwitchCase="page.EDIT_FORM">
-      <app-edit-form-page></app-edit-form-page>
+      <app-edit-form-page [editstudentMode]="editstudentMode" [studentId]="studentId" (pageClosed)="backToDetails()">
+      </app-edit-form-page>
     </div>
     <div *ngSwitchDefault>
       <app-main-page (studentChosen)="showDetails($event)"></app-main-page>
