@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Page } from './enums/page';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'cqrs-demo-fe';
+
+  currentPage = Page.MAIN_PAGE;
+  page = Page;
+  studentId = "";
+
+  showDetails(studentId: string): void {
+    this.studentId = studentId;
+    this.currentPage = Page.USER_PAGE;
+  }
+
+  showMainPage(): void {
+    this.currentPage = Page.MAIN_PAGE;
+  }
 }
