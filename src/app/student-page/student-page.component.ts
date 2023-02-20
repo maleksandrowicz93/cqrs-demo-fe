@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Page } from '../enums/page';
+import { StudentDto } from '../interfaces/StudentDto';
 import { PageLoaderService } from '../services/page-loader.service';
+import { StudentDataService } from '../services/student-data.service';
 
 @Component({
   selector: 'app-student-page',
@@ -9,16 +11,23 @@ import { PageLoaderService } from '../services/page-loader.service';
 })
 export class StudentPageComponent {
 
-  @Input()
-  studentId = "";
+  studentId = this.pageLoaderService.getCurrentStudentId();
 
-  constructor(private pageLoaderService: PageLoaderService) {}
+  constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
+
+  getStudent(id: string): StudentDto {
+    return this.studentDataService.findById(id);
+  }
 
   close(): void {
     this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
   }
 
-  editStudent(): void  {
+  updatePassword(): void {
+    this.pageLoaderService.setCurrentPage(Page.UPDATE_PASSWORD_FORM);
+  }
+
+  editStudent(): void {
     this.pageLoaderService.setCurrentPage(Page.EDIT_FORM);
   }
 }

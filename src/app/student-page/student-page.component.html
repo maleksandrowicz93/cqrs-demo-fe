@@ -1,4 +1,12 @@
 <button (click)="close()">X</button>
-<p>{{studentId}}</p>
-<button (click)="editStudent()">Update Password</button>
+<ng-container *ngIf="studentId | async as id">
+    <div *ngIf="getStudent(id); let student">
+        <p>id: {{student.id}}</p>
+        <p>email: {{student.email}}</p>
+        <p>first name: {{student.firstName}}</p>
+        <p>last name: {{student.lastName}}</p>
+        <p>birt date: {{student.birthDate}}</p>
+    </div>
+</ng-container>
+<button (click)="updatePassword()">Update Password</button>
 <button (click)="editStudent()">Edit Data</button>

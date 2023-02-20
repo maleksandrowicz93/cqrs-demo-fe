@@ -1,7 +1,7 @@
 <div>
-  <ng-container [ngSwitch]="currentPage">
+  <ng-container [ngSwitch]="currentPage | async">
     <div *ngSwitchCase="page.USER_PAGE">
-      <app-student-page [studentId]="studentId"></app-student-page>
+      <app-student-page></app-student-page>
     </div>
     <div *ngSwitchCase="page.EDIT_FORM">
       <app-edit-form-page></app-edit-form-page>

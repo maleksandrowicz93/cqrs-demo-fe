@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Page } from '../enums/page';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
+import { PageLoaderService } from '../services/page-loader.service';
+import { StudentDataService } from '../services/student-data.service';
 
 @Component({
   selector: 'app-main-page',
@@ -10,21 +13,14 @@ export class MainPageComponent implements OnInit {
 
   students = new Array<StudentIdentifiaction>();
 
+  constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
+
   ngOnInit(): void {
-    this.fillStudents();
+    this.loadUsers();
   }
 
-  fillStudents(): void {
-    this.students.push(
-      {
-        id: "039fb5d7-75d2-48e4-8d44-34cb8690475b",
-        email: "email1@gmal.com"
-      },
-      {
-        id: "697cdb58-a251-4f65-bf43-64a00d16f3e4",
-        email: "email2@gmal.com"
-      }
-    );
+  loadUsers(): void {
+    this.students = this.studentDataService.findAll();
   }
 
   clear(): void {
@@ -32,10 +28,7 @@ export class MainPageComponent implements OnInit {
   }
 
   adduser(): void {
-    this.students.push({
-      id: "40c788e6-b004-4272-a13d-f89a10729b34",
-      email: "email3@gmal.com"
-    });
+    this.pageLoaderService.setCurrentPage(Page.ADD_FORM);
   }
 
   nextUsers(): void { }

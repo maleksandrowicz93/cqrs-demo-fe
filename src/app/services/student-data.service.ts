@@ -39,10 +39,10 @@ export class StudentDataService {
     }));
   }
 
-  findById(id: string): StudentDto | undefined {
+  findById(id: string): StudentDto {
     let student = this.students.find(student => student.id == id);
     if (student == undefined) {
-      return undefined;
+      return {} as StudentDto;
     }
     return {
       id: student.id,

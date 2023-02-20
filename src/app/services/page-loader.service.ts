@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { Page } from '../enums/page';
 
 @Injectable({
@@ -7,17 +7,17 @@ import { Page } from '../enums/page';
 })
 export class PageLoaderService {
 
-  private livePage = new Subject<Page>();
-  private currentStudentId = new Subject<string>();
+  private currentPage = new Subject<Page>();
+  private currentStudentId = new ReplaySubject<string>;
 
   constructor() { }
 
   setCurrentPage(page: Page): void {
-    this.livePage.next(page);
+    this.currentPage.next(page);
   }
 
   getCurrentPage(): Observable<Page> {
-    return this.livePage.asObservable();
+    return this.currentPage.asObservable();
   }
 
   setCurrentStudentId(id: string): void {

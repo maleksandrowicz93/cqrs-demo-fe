@@ -1,8 +1,11 @@
-<div>Number of students: {{students.length}}</div>
-<div>
+<button (click)="adduser()">Add</button>
+<button (click)="loadUsers()">Load</button>
+<div *ngIf="students.length > 0">
+    <p>Number of students: {{students.length}}</p>
     <ul>
         <li *ngFor="let student of students, let i = index">
             <app-student-entry [index]="i" [student]="student"></app-student-entry>
         </li>
     </ul>
+    <button (click)="clear()">Clear</button>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Page } from '../enums/page';
 import { PageLoaderService } from '../services/page-loader.service';
 
@@ -7,11 +7,15 @@ import { PageLoaderService } from '../services/page-loader.service';
   templateUrl: './edit-form-page.component.html',
   styleUrls: ['./edit-form-page.component.css']
 })
-export class EditFormPageComponent {
+export class EditFormPageComponent implements OnInit {
 
-  studentId = this.pageLoaderService.getCurrentStudentId();
+  studentId = "";
 
   constructor(private pageLoaderService: PageLoaderService) {}
+
+  ngOnInit(): void {
+    this.pageLoaderService.getCurrentStudentId().subscribe(id => this.studentId = id);
+  }
 
   back(): void {
     this.pageLoaderService.setCurrentPage(Page.USER_PAGE);
