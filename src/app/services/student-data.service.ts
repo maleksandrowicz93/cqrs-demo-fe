@@ -75,6 +75,14 @@ export class StudentDataService {
     student.lastName = saveStudentRequest.lastName;
     student.birthDate = saveStudentRequest.birthDate;
   }
+
+  updatePassword(id: string, password: string): void {
+    let student = this.students.find(student => student.id == id);
+    if (student == undefined) {
+      return;
+    }
+    student.password = password;
+  }
 }
 
 interface Student {

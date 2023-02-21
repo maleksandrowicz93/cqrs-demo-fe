@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { SaveFormPageComponent } from './save-form-page/save-form-page.component';
 import { AddStudentPageComponent } from './add-student-page/add-student-page.component';
 import { EditStudentPageComponent } from './edit-student-page/edit-student-page.component';
+import { UpdatePasswordPageComponent } from './update-password-page/update-password-page.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { EditStudentPageComponent } from './edit-student-page/edit-student-page.
     StudentPageComponent,
     SaveFormPageComponent,
     AddStudentPageComponent,
-    EditStudentPageComponent
+    EditStudentPageComponent,
+    UpdatePasswordPageComponent
   ],
   imports: [
     BrowserModule,
