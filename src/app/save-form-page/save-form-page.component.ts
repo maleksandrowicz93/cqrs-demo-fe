@@ -3,14 +3,13 @@ import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
 import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 import { PageLoaderService } from '../services/page-loader.service';
-import { StudentDataService } from '../services/student-data.service';
 
 @Component({
   selector: 'app-save-form-page',
   templateUrl: './save-form-page.component.html',
   styleUrls: ['./save-form-page.component.css']
 })
-export class SaveFormPageComponent {
+export class SaveFormPageComponent implements DoCheck {
 
   @Input()
   previousPage = Page.MAIN_PAGE;
@@ -24,7 +23,8 @@ export class SaveFormPageComponent {
   firstName = "";
   lastName = "";
   birthDate = new Date();
-  errors = new Set<FormError>([FormError.BLANK_EMAIL, FormError.BLANK_PASSWORD]);
+
+  errors = new Set<FormError>();
 
   constructor(private pageLoaderService: PageLoaderService) { }
 

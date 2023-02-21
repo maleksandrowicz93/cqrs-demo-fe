@@ -16,7 +16,7 @@ export class UpdatePasswordPageComponent implements DoCheck {
   password = "";
   confirmedPassword = "";
 
-  errors = new Set<FormError>([FormError.BLANK_PASSWORD]);
+  errors = new Set<FormError>();
 
   constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
 
@@ -49,5 +49,6 @@ export class UpdatePasswordPageComponent implements DoCheck {
 
   confirm(id: string): void {
     this.studentDataService.updatePassword(id, this.password);
+    this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
   }
 }
