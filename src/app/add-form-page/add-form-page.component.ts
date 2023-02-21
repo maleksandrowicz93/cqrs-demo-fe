@@ -1,6 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
+import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
-import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 import { PageLoaderService } from '../services/page-loader.service';
 import { StudentDataService } from '../services/student-data.service';
 
@@ -11,24 +11,23 @@ import { StudentDataService } from '../services/student-data.service';
 })
 export class AddFormPageComponent implements DoCheck {
 
-  saveStudentRequest = {} as SaveStudentRequest;
   email = "";
   password = "";
   confirmedPassword = "";
   firstName = "";
   lastName = "";
   birthDate = new Date();
-  errors = new Set<Error>([Error.BLANK_EMAIL, Error.BLANK_PASSWORD]);
+  errors = new Set<FormError>([FormError.BLANK_EMAIL, FormError.BLANK_PASSWORD]);
 
   constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
 
   ngDoCheck(): void {
-    this.validateInput(Error.BLANK_EMAIL, () => this.email.length > 0);
-    this.validateInput(Error.BLANK_PASSWORD, () => this.password.length > 0);
-    this.validateInput(Error.DIFFERENT_PASSWORDS, () => this.password === this.confirmedPassword);
+    this.validateInput(FormError.BLANK_EMAIL, () => this.email.length > 0);
+    this.validateInput(FormError.BLANK_PASSWORD, () => this.password.length > 0);
+    this.validateInput(FormError.DIFFERENT_PASSWORDS, () => this.password === this.confirmedPassword);
   }
 
-  private validateInput(error: Error, predicate: () => boolean): void {
+  private validateInput(error: FormError, predicate: () => boolean): void {
     let isError = this.errors.has(error);
     if (predicate()) {
       if (isError) {
@@ -45,6 +44,15 @@ export class AddFormPageComponent implements DoCheck {
     this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
   }
 
+  clear(): void {
+    this.email = "";
+    this.password = "";
+    this.confirmedPassword = "";
+    this.firstName = "";
+    this.lastName = "";
+    this.birthDate = new Date();
+  }
+
   addStudent(): void {
     this.studentDataService.addStudent({
       email: this.email,
@@ -55,10 +63,4 @@ export class AddFormPageComponent implements DoCheck {
     });
     this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
   }
-}
-
-enum Error {
-  BLANK_EMAIL = "Email cannot be blank",
-  BLANK_PASSWORD = "Password cannot be blank",
-  DIFFERENT_PASSWORDS = "Passwords must be the same"
 }
