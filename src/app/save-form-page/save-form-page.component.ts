@@ -1,15 +1,18 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, Input } from '@angular/core';
 import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
 import { PageLoaderService } from '../services/page-loader.service';
 import { StudentDataService } from '../services/student-data.service';
 
 @Component({
-  selector: 'app-add-form-page',
-  templateUrl: './add-form-page.component.html',
-  styleUrls: ['./add-form-page.component.css']
+  selector: 'app-save-form-page',
+  templateUrl: './save-form-page.component.html',
+  styleUrls: ['./save-form-page.component.css']
 })
-export class AddFormPageComponent implements DoCheck {
+export class SaveFormPageComponent {
+
+  @Input()
+  previousPage = Page.MAIN_PAGE;
 
   email = "";
   password = "";
@@ -41,7 +44,7 @@ export class AddFormPageComponent implements DoCheck {
   }
 
   close(): void {
-    this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
+    this.pageLoaderService.setCurrentPage(this.previousPage);
   }
 
   clear(): void {
@@ -61,6 +64,6 @@ export class AddFormPageComponent implements DoCheck {
       lastName: this.lastName,
       birthDate: this.birthDate
     });
-    this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
+    this.pageLoaderService.setCurrentPage(this.previousPage);
   }
 }

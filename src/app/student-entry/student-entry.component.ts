@@ -20,6 +20,6 @@ export class StudentEntryComponent {
 
   showDetails(studentId: string): void {
     this.pageLoaderService.setCurrentStudentId(studentId);
-    this.pageLoaderService.setCurrentPage(Page.USER_PAGE);
+    this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
   }
 }
