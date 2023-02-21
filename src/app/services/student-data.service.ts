@@ -53,15 +53,27 @@ export class StudentDataService {
     };
   }
 
-  addStudent(student: SaveStudentRequest): void {
+  addStudent(saveStudentRequest: SaveStudentRequest): void {
     this.students.push({
       id: uuid(),
-      email: student.email,
-      password: student.password,
-      firstName: student.firstName,
-      lastName: student.lastName,
-      birthDate: student.birthDate
+      email: saveStudentRequest.email,
+      password: saveStudentRequest.password,
+      firstName: saveStudentRequest.firstName,
+      lastName: saveStudentRequest.lastName,
+      birthDate: saveStudentRequest.birthDate
     });
+  }
+
+  editStudent(id: string, saveStudentRequest: SaveStudentRequest): void {
+    let student = this.students.find(student => student.id == id);
+    if (student == undefined) {
+      return;
+    }
+    student.email = saveStudentRequest.email;
+    student.password = saveStudentRequest.password;
+    student.firstName = saveStudentRequest.firstName;
+    student.lastName = saveStudentRequest.lastName;
+    student.birthDate = saveStudentRequest.birthDate;
   }
 }
 

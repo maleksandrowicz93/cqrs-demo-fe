@@ -8,6 +8,8 @@ import { StudentEntryComponent } from './student-entry/student-entry.component';
 import { StudentPageComponent } from './student-page/student-page.component';
 import { FormsModule } from '@angular/forms';
 import { SaveFormPageComponent } from './save-form-page/save-form-page.component';
+import { AddStudentPageComponent } from './add-student-page/add-student-page.component';
+import { EditStudentPageComponent } from './edit-student-page/edit-student-page.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { SaveFormPageComponent } from './save-form-page/save-form-page.component
     MainPageComponent,
     StudentEntryComponent,
     StudentPageComponent,
-    SaveFormPageComponent
+    SaveFormPageComponent,
+    AddStudentPageComponent,
+    EditStudentPageComponent
   ],
   imports: [
     BrowserModule,

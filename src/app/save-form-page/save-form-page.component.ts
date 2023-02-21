@@ -1,6 +1,7 @@
-import { Component, DoCheck, Input } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
 import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
+import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 import { PageLoaderService } from '../services/page-loader.service';
 import { StudentDataService } from '../services/student-data.service';
 
@@ -14,6 +15,9 @@ export class SaveFormPageComponent {
   @Input()
   previousPage = Page.MAIN_PAGE;
 
+  @Output()
+  studentConfirmed = new EventEmitter<SaveStudentRequest>();
+
   email = "";
   password = "";
   confirmedPassword = "";
@@ -22,7 +26,7 @@ export class SaveFormPageComponent {
   birthDate = new Date();
   errors = new Set<FormError>([FormError.BLANK_EMAIL, FormError.BLANK_PASSWORD]);
 
-  constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
+  constructor(private pageLoaderService: PageLoaderService) { }
 
   ngDoCheck(): void {
     this.validateInput(FormError.BLANK_EMAIL, () => this.email.length > 0);
@@ -56,8 +60,8 @@ export class SaveFormPageComponent {
     this.birthDate = new Date();
   }
 
-  addStudent(): void {
-    this.studentDataService.addStudent({
+  confirm(): void {
+    this.studentConfirmed.emit({
       email: this.email,
       password: this.password,
       firstName: this.firstName,

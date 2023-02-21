@@ -4,10 +4,10 @@
       <app-student-page></app-student-page>
     </div>
     <div *ngSwitchCase="page.ADD_FORM">
-      <app-save-form-page [previousPage]="page.MAIN_PAGE"></app-save-form-page>
+      <app-add-student-page></app-add-student-page>
     </div>
     <div *ngSwitchCase="page.EDIT_FORM">
-      <app-save-form-page [previousPage]="page.STUDENT_PAGE"></app-save-form-page>
+      <app-edit-student-page></app-edit-student-page>
     </div>
     <div *ngSwitchDefault>
       <app-main-page></app-main-page>
