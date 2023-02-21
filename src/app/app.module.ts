@@ -7,6 +7,8 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { EditFormPageComponent } from './edit-form-page/edit-form-page.component';
 import { StudentEntryComponent } from './student-entry/student-entry.component';
 import { StudentPageComponent } from './student-page/student-page.component';
+import { AddFormPageComponent } from './add-form-page/add-form-page.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { StudentPageComponent } from './student-page/student-page.component';
     MainPageComponent,
     EditFormPageComponent,
     StudentEntryComponent,
-    StudentPageComponent
+    StudentPageComponent,
+    AddFormPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
