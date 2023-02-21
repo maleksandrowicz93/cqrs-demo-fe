@@ -11,6 +11,8 @@ import { StudentDataService } from '../services/student-data.service';
 })
 export class UpdatePasswordPageComponent implements DoCheck {
 
+  page = Page;
+
   studentId = this.pageLoaderService.getCurrentStudentId();
 
   password = "";
@@ -36,10 +38,6 @@ export class UpdatePasswordPageComponent implements DoCheck {
         this.errors.add(error);
       }
     }
-  }
-
-  close(): void {
-    this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
   }
 
   clear(): void {

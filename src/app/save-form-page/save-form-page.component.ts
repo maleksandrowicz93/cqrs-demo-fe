@@ -47,10 +47,6 @@ export class SaveFormPageComponent implements DoCheck {
     }
   }
 
-  close(): void {
-    this.pageLoaderService.setCurrentPage(this.previousPage);
-  }
-
   clear(): void {
     this.email = "";
     this.password = "";

@@ -11,16 +11,14 @@ import { StudentDataService } from '../services/student-data.service';
 })
 export class StudentPageComponent {
 
+  page = Page;
+
   studentId = this.pageLoaderService.getCurrentStudentId();
 
   constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
 
   getStudent(id: string): StudentDto {
     return this.studentDataService.findById(id);
-  }
-
-  close(): void {
-    this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
   }
 
   updatePassword(): void {

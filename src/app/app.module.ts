@@ -11,6 +11,7 @@ import { SaveFormPageComponent } from './save-form-page/save-form-page.component
 import { AddStudentPageComponent } from './add-student-page/add-student-page.component';
 import { EditStudentPageComponent } from './edit-student-page/edit-student-page.component';
 import { UpdatePasswordPageComponent } from './update-password-page/update-password-page.component';
+import { CloseButtonComponent } from './close-button/close-button.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UpdatePasswordPageComponent } from './update-password-page/update-passw
     SaveFormPageComponent,
     AddStudentPageComponent,
     EditStudentPageComponent,
-    UpdatePasswordPageComponent
+    UpdatePasswordPageComponent,
+    CloseButtonComponent
   ],
   imports: [
     BrowserModule,
