@@ -83,6 +83,16 @@ export class StudentDataService {
     }
     student.password = password;
   }
+
+  deleteStudent(id: string): void {
+    for (let i = 0; i < this.students.length; i++) {
+      let student = this.students[i];
+      if (student.id === id) {
+        this.students.splice(i, 1);
+        break;
+      }
+    }
+  }
 }
 
 interface Student {

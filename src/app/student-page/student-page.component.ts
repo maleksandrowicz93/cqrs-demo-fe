@@ -28,4 +28,9 @@ export class StudentPageComponent {
   editStudent(): void {
     this.pageLoaderService.setCurrentPage(Page.EDIT_FORM);
   }
+
+  deleteStudent(id: string): void {
+    this.studentDataService.deleteStudent(id);
+    this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
+  }
 }
