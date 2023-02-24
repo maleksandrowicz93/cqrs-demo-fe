@@ -1,8 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
 import { Page } from '../enums/page';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
+import { HttpStudentService } from '../services/http-student.service';
 import { PageLoaderService } from '../services/page-loader.service';
-import { StudentDataService } from '../services/student-data.service';
 
 @Component({
   selector: 'app-main-page',
@@ -18,10 +20,20 @@ export class MainPageComponent implements OnInit {
   pageSize = this.sizes[this.defaultSizeIndex];
   pageNumber = 0;
 
-  constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
+  constructor(private pageLoaderService: PageLoaderService, private httpStudentService: HttpStudentService) { }
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.fetchUsers();
+  }
+
+  private fetchUsers(): void {
+    this.httpStudentService.getAllStudents().subscribe({
+      next: list => {
+        this.students = list;
+        console.log(list);
+      }, 
+      error: (error: HttpErrorResponse) => console.error(error)
+    });
   }
 
   adduser(): void {
@@ -29,7 +41,7 @@ export class MainPageComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.students = this.studentDataService.findAll();
+    this.fetchUsers();
   }
 
   changeSize(selectedValue: Event): void {

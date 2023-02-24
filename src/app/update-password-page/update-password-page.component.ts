@@ -1,8 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DoCheck } from '@angular/core';
 import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
+import { HttpStudentService } from '../services/http-student.service';
 import { PageLoaderService } from '../services/page-loader.service';
-import { StudentDataService } from '../services/student-data.service';
 
 @Component({
   selector: 'app-update-password-page',
@@ -20,7 +21,7 @@ export class UpdatePasswordPageComponent implements DoCheck {
 
   errors = new Set<FormError>();
 
-  constructor(private pageLoaderService: PageLoaderService, private studentDataService: StudentDataService) { }
+  constructor(private pageLoaderService: PageLoaderService, private httpStudentService: HttpStudentService) { }
 
   ngDoCheck(): void {
     this.validateInput(FormError.BLANK_PASSWORD, () => this.password.length > 0);
@@ -46,7 +47,9 @@ export class UpdatePasswordPageComponent implements DoCheck {
   }
 
   confirm(id: string): void {
-    this.studentDataService.updatePassword(id, this.password);
-    this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
+    this.httpStudentService.updatePassword(id, this.password).subscribe({
+      next: response => this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE),
+      error: (error: HttpErrorResponse) => console.error(error)
+    });
   }
 }

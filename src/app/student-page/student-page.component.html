@@ -1,6 +1,6 @@
 <app-close-button [previousPage]="page.MAIN_PAGE"></app-close-button>
-<ng-container *ngIf="studentId | async as id">
-    <div *ngIf="getStudent(id); let student">
+<div *ngIf="student.id">
+    <div>
         <p>id: {{student.id}}</p>
         <p>email: {{student.email}}</p>
         <p>first name: {{student.firstName}}</p>
@@ -9,5 +9,5 @@
     </div>
     <button (click)="updatePassword()">Update Password</button>
     <button (click)="editStudent()">Edit Data</button>
-    <button (click)="deleteStudent(id)">Delete</button>
-</ng-container>
+    <button (click)="deleteStudent()">Delete</button>
+</div>

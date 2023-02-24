@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Page } from '../enums/page';
 import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
-import { StudentDataService } from '../services/student-data.service';
+import { HttpStudentService } from '../services/http-student.service';
+import { PageLoaderService } from '../services/page-loader.service';
 
 @Component({
   selector: 'app-add-student-page',
@@ -12,9 +14,12 @@ export class AddStudentPageComponent {
 
   page = Page;
 
-  constructor(private studentDataService: StudentDataService) { }
+  constructor(private pageLoaderService: PageLoaderService, private httpStudentService: HttpStudentService) { }
 
   addStudent(student: SaveStudentRequest): void {
-    this.studentDataService.addStudent(student);
+    this.httpStudentService.addStudent(student).subscribe({
+      next: response => this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE),
+      error: (error: HttpErrorResponse) => console.error(error)
+    });
   }
 }

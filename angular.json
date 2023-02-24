@@ -58,12 +58,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "cqrs-demo-fe:build:production",
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "cqrs-demo-fe:build:production"
+              "browserTarget": "cqrs-demo-fe:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
-              "browserTarget": "cqrs-demo-fe:build:development"
+              "browserTarget": "cqrs-demo-fe:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

@@ -2,7 +2,6 @@ import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
 import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
 import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
-import { PageLoaderService } from '../services/page-loader.service';
 
 @Component({
   selector: 'app-save-form-page',
@@ -13,6 +12,8 @@ export class SaveFormPageComponent implements DoCheck {
 
   @Input()
   previousPage = Page.MAIN_PAGE;
+  @Input()
+  passwordRequired = true;
 
   @Output()
   studentConfirmed = new EventEmitter<SaveStudentRequest>();
@@ -26,11 +27,13 @@ export class SaveFormPageComponent implements DoCheck {
 
   errors = new Set<FormError>();
 
-  constructor(private pageLoaderService: PageLoaderService) { }
+  constructor() { }
 
   ngDoCheck(): void {
     this.validateInput(FormError.BLANK_EMAIL, () => this.email.length > 0);
-    this.validateInput(FormError.BLANK_PASSWORD, () => this.password.length > 0);
+    if (this.passwordRequired) {
+      this.validateInput(FormError.BLANK_PASSWORD, () => this.password.length > 0);
+    }
     this.validateInput(FormError.DIFFERENT_PASSWORDS, () => this.password === this.confirmedPassword);
   }
 
@@ -64,6 +67,5 @@ export class SaveFormPageComponent implements DoCheck {
       lastName: this.lastName,
       birthDate: this.birthDate
     });
-    this.pageLoaderService.setCurrentPage(this.previousPage);
   }
 }
