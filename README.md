@@ -6,22 +6,36 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Backend server
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Prerequisites: 
+ - running docker daemon
+ - free 8000 port
 
-## Build
+Download or `git clone` backend application: https://github.com/maleksandrowicz93/cqrs-demo-apprvd/tree/develop. Next go to project root directory, make sure you are at develop branch, and build docker image by running `docker build -t cqrs-demo-be .`. Then run `docker images`, copy IMAGE ID, and run container with command `docker run -p 8000:8000 <IMAGE_ID>`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Now, you can test manually frontend application :)
 
-## Running unit tests
+## Backend API
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+You can explore backend api in user friendly interactive way with swagger. Go to root directory of backend project, and copy content of file `api-spec/student-api.yml`. Then navigate to https://editor.swagger.io and replace content from left side located editor with already copied one. After that you can enjoy reviewing api on the right side located intercative GUI.
 
-## Running end-to-end tests
+## Business functionalities
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Business capabilities of frontend application is very similar to backend api. You can perform followmng actions:
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+ - loading all saved stduents with pagination
+ - clearing already loaded students list (it is clearing view, not persistent data)
+ - adding new students
+ - displaying details of given student
+ - editing student's data
+ - updating student's password
+ - deleting student with a confirmation dialog
+ - form validation:
+    - add/edit user form:
+        - email cannot be blank
+        - password cannot be blank
+        - password and confirmed password must be the same
+    - update password form:
+        - password cannot be blank
+        - password and confirmed password must be the same

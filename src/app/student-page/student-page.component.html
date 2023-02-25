@@ -1,0 +1,13 @@
+<app-close-button [previousPage]="page.MAIN_PAGE"></app-close-button>
+<div *ngIf="student.id">
+    <div>
+        <p>id: {{student.id}}</p>
+        <p>email: {{student.email}}</p>
+        <p>first name: {{student.firstName}}</p>
+        <p>last name: {{student.lastName}}</p>
+        <p>birt date: {{student.birthDate}}</p>
+    </div>
+    <button (click)="updatePassword()">Update Password</button>
+    <button (click)="editStudent()">Edit Data</button>
+    <button (click)="deleteStudent()">Delete</button>
+</div>

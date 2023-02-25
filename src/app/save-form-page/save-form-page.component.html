@@ -1,0 +1,26 @@
+<app-close-button [previousPage]="previousPage"></app-close-button>
+<div>
+    <label>email: </label>
+    <input type="text" [(ngModel)]="email">
+    <br>
+    <label>password: </label>
+    <input type="password" [(ngModel)]="password">
+    <br>
+    <label>confirm password: </label>
+    <input type="password" [(ngModel)]="confirmedPassword">
+    <br>
+    <label>first name: </label>
+    <input type="text" [(ngModel)]="firstName">
+    <br>
+    <label>last name: </label>
+    <input type="text" [(ngModel)]="lastName">
+    <br>
+    <label>birth date: </label>
+    <input type="date" [(ngModel)]="birthDate">
+    <br>
+</div>
+<ul *ngFor="let error of errors" style="color: red;">
+    <li>{{error}}</li>
+</ul>
+<button (click)="clear()">Clear</button>
+<button [disabled]="errors.size > 0" (click)="confirm()">Confirm</button>
