@@ -30,7 +30,7 @@ Business capabilities of frontend application is very similar to backend api. Yo
  - displaying details of given student
  - editing student's data
  - updating student's password
- - deleting student
+ - deleting student with a confirmation dialog
  - form validation:
     - add/edit user form:
         - email cannot be blank

@@ -51,18 +51,20 @@ export class StudentPageComponent implements OnInit {
   }
 
   deleteStudent(): void {
-    this.httpStudentSerice.deleteStudent(this.student.id).subscribe({
-      next: () => {
-        let message = "Student with id " + this.student.id + " deleted";
-        console.log(message);
-        alert(message);
-        this.student = {} as StudentDto;
-        this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-        alert(ErrorMessage.UNKNOWN_ERROR);
-      }
-    });
+    if (confirm("Are you sure you want to delete this student?")) {
+      this.httpStudentSerice.deleteStudent(this.student.id).subscribe({
+        next: () => {
+          let message = "Student with id " + this.student.id + " deleted";
+          console.log(message);
+          alert(message);
+          this.student = {} as StudentDto;
+          this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+          alert(ErrorMessage.UNKNOWN_ERROR);
+        }
+      });
+    } 
   }
 }
