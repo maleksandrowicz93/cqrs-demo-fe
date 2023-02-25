@@ -1,5 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ErrorMessage } from '../enums/error-message';
 import { Page } from '../enums/page';
 import { StudentDto } from '../interfaces/StudentDto';
 import { HttpStudentService } from '../services/http-student.service';
@@ -21,10 +22,21 @@ export class StudentPageComponent implements OnInit {
   ngOnInit(): void {
     this.pageLoaderService.getCurrentStudentId().subscribe(id => {
       this.httpStudentSerice.getStudentById(id).subscribe({
-        next: student => this.student = student,
+        next: student => {
+          console.log("Student fetched:")
+          console.log(student);
+          this.student = student;
+        },
         error: (error: HttpErrorResponse) => {
-          this.student = {} as StudentDto;
           console.error(error);
+          this.student = {} as StudentDto;
+          switch (error.status) {
+            case HttpStatusCode.NotFound:
+              alert(ErrorMessage.STUDENT_NOT_FOUND);
+              break;
+            default:
+              alert(ErrorMessage.UNKNOWN_ERROR);
+          }
         }
       });  
     });
@@ -41,10 +53,16 @@ export class StudentPageComponent implements OnInit {
   deleteStudent(): void {
     this.httpStudentSerice.deleteStudent(this.student.id).subscribe({
       next: () => {
+        let message = "Student with id " + this.student.id + " deleted";
+        console.log(message);
+        alert(message);
         this.student = {} as StudentDto;
         this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
       },
-      error: (error: HttpErrorResponse) => console.error(error)
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+        alert(ErrorMessage.UNKNOWN_ERROR);
+      }
     });
   }
 }

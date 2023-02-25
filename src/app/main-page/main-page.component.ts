@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { ErrorMessage } from '../enums/error-message';
 import { Page } from '../enums/page';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
 import { HttpStudentService } from '../services/http-student.service';
@@ -29,10 +29,14 @@ export class MainPageComponent implements OnInit {
   private fetchUsers(): void {
     this.httpStudentService.getAllStudents().subscribe({
       next: list => {
-        this.students = list;
+        console.log("Students page laoded:");
         console.log(list);
+        this.students = list;
       }, 
-      error: (error: HttpErrorResponse) => console.error(error)
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+        alert(ErrorMessage.UNKNOWN_ERROR);
+      }
     });
   }
 

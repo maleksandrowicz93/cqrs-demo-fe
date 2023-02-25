@@ -1,5 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, DoCheck } from '@angular/core';
+import { ErrorMessage } from '../enums/error-message';
 import { FormError } from '../enums/form-error';
 import { Page } from '../enums/page';
 import { HttpStudentService } from '../services/http-student.service';
@@ -48,8 +49,24 @@ export class UpdatePasswordPageComponent implements DoCheck {
 
   confirm(id: string): void {
     this.httpStudentService.updatePassword(id, this.password).subscribe({
-      next: response => this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE),
-      error: (error: HttpErrorResponse) => console.error(error)
+      next: response => {
+        console.log("Password updated for:");
+        console.log(response);
+        this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+        switch(error.status) {
+          case HttpStatusCode.BadRequest:
+            alert(ErrorMessage.INVALID_CREDENTIALS);
+            break;
+          case HttpStatusCode.NotFound:
+            alert(ErrorMessage.STUDENT_NOT_FOUND);
+            break;
+          default:
+            alert(ErrorMessage.UNKNOWN_ERROR);
+        }
+      }
     });
   }
 }

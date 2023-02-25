@@ -11,6 +11,7 @@ import { PageLoaderService } from './services/page-loader.service';
 })
 export class AppComponent {
 
+  title = "cqrs-demo-fe";
   page = Page;
   currentPage = this.pageLoaderService.getCurrentPage();
 
