@@ -1,5 +1,3 @@
 <ng-container *ngIf="studentId | async as id">
-    <app-save-form-page [previousPage]="page.STUDENT_PAGE" [passwordRequired]="false"
-        (studentConfirmed)="editStudent(id, $event)">
-    </app-save-form-page>
+    <app-save-form-page [previousPage]="page.STUDENT_PAGE"(studentConfirmed)="editStudent(id, $event)"></app-save-form-page>
 </ng-container>

@@ -12,8 +12,6 @@ export class SaveFormPageComponent implements DoCheck {
 
   @Input()
   previousPage = Page.MAIN_PAGE;
-  @Input()
-  passwordRequired = true;
 
   @Output()
   studentConfirmed = new EventEmitter<SaveStudentRequest>();
@@ -30,10 +28,8 @@ export class SaveFormPageComponent implements DoCheck {
   constructor() { }
 
   ngDoCheck(): void {
-    this.validateInput(FormError.BLANK_EMAIL, () => this.email.length > 0);
-    if (this.passwordRequired) {
-      this.validateInput(FormError.BLANK_PASSWORD, () => this.password.length > 0);
-    }
+    this.validateInput(FormError.BLANK_EMAIL, () => this.email.trim().length > 0);
+    this.validateInput(FormError.BLANK_PASSWORD, () => this.password.trim().length > 0);
     this.validateInput(FormError.DIFFERENT_PASSWORDS, () => this.password === this.confirmedPassword);
   }
 
