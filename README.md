@@ -32,11 +32,9 @@ Business capabilities of frontend application is very similar to backend api. Yo
  - updating student's password
  - deleting student
  - form validation:
-    - add user form:
+    - add/edit user form:
         - email cannot be blank
         - password cannot be blank
-        - password and confirmed password must be the same
-    - edit user form:
         - password and confirmed password must be the same
     - update password form:
         - password cannot be blank
