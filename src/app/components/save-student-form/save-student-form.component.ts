@@ -1,13 +1,13 @@
 import { Component, DoCheck, EventEmitter, Output } from '@angular/core';
-import { FormError } from '../enums/form-error';
-import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
+import { FormError } from '../../enums/form-error';
+import { SaveStudentRequest } from '../../interfaces/SaveStudentRequest';
 
 @Component({
-  selector: 'app-save-form-page',
-  templateUrl: './save-form-page.component.html',
-  styleUrls: ['./save-form-page.component.css']
+  selector: 'app-save-student-form',
+  templateUrl: './save-student-form.component.html',
+  styleUrls: ['./save-student-form.component.css']
 })
-export class SaveFormPageComponent implements DoCheck {
+export class SaveStudentFormComponent implements DoCheck {
 
   @Output()
   studentConfirmed = new EventEmitter<SaveStudentRequest>();

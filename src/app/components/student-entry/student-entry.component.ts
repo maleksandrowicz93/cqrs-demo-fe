@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
+import { StudentIdentifiaction } from '../../interfaces/StudentIdentifiaction';
 
 @Component({
   selector: 'app-student-entry',

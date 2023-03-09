@@ -1,16 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ErrorMessage } from '../enums/error-message';
-import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
-import { HttpStudentService } from '../services/http-student.service';
-import { StudentNavigatorService } from '../services/student-navigator.service';
+import { ErrorMessage } from '../../enums/error-message';
+import { StudentIdentifiaction } from '../../interfaces/StudentIdentifiaction';
+import { HttpStudentService } from '../../services/http-student.service';
+import { StudentNavigatorService } from '../../services/student-navigator.service';
 
 @Component({
-  selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.css']
+  selector: 'app-students-list',
+  templateUrl: './students-list.component.html',
+  styleUrls: ['./students-list.component.css']
 })
-export class MainPageComponent implements OnInit {
+export class StudentsListComponent implements OnInit {
 
   readonly sizes = [5, 10, 20, 50];
 

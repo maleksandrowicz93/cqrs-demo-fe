@@ -1,16 +1,16 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ErrorMessage } from '../enums/error-message';
-import { StudentDto } from '../interfaces/StudentDto';
-import { HttpStudentService } from '../services/http-student.service';
-import { StudentNavigatorService } from '../services/student-navigator.service';
+import { ErrorMessage } from '../../enums/error-message';
+import { StudentDto } from '../../interfaces/StudentDto';
+import { HttpStudentService } from '../../services/http-student.service';
+import { StudentNavigatorService } from '../../services/student-navigator.service';
 
 @Component({
-  selector: 'app-student-page',
-  templateUrl: './student-page.component.html',
-  styleUrls: ['./student-page.component.css']
+  selector: 'app-student-details',
+  templateUrl: './student-details.component.html',
+  styleUrls: ['./student-details.component.css']
 })
-export class StudentPageComponent implements OnInit {
+export class StudentDetailsComponent implements OnInit {
 
   studentId = "";
   student = {} as StudentDto;

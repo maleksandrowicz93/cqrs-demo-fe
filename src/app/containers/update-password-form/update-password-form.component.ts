@@ -1,16 +1,16 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, DoCheck, OnInit } from '@angular/core';
-import { ErrorMessage } from '../enums/error-message';
-import { FormError } from '../enums/form-error';
-import { HttpStudentService } from '../services/http-student.service';
-import { StudentNavigatorService } from '../services/student-navigator.service';
+import { ErrorMessage } from '../../enums/error-message';
+import { FormError } from '../../enums/form-error';
+import { HttpStudentService } from '../../services/http-student.service';
+import { StudentNavigatorService } from '../../services/student-navigator.service';
 
 @Component({
-  selector: 'app-update-password-page',
-  templateUrl: './update-password-page.component.html',
-  styleUrls: ['./update-password-page.component.css']
+  selector: 'app-update-password-form',
+  templateUrl: './update-password-form.component.html',
+  styleUrls: ['./update-password-form.component.css']
 })
-export class UpdatePasswordPageComponent implements OnInit, DoCheck {
+export class UpdatePasswordFormComponent implements OnInit, DoCheck {
 
   studentId = "";
   password = "";

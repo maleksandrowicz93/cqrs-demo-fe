@@ -1,16 +1,16 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ErrorMessage } from '../enums/error-message';
-import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
-import { HttpStudentService } from '../services/http-student.service';
-import { StudentNavigatorService } from '../services/student-navigator.service';
+import { ErrorMessage } from '../../enums/error-message';
+import { SaveStudentRequest } from '../../interfaces/SaveStudentRequest';
+import { HttpStudentService } from '../../services/http-student.service';
+import { StudentNavigatorService } from '../../services/student-navigator.service';
 
 @Component({
-  selector: 'app-add-student-page',
-  templateUrl: './add-student-page.component.html',
-  styleUrls: ['./add-student-page.component.css']
+  selector: 'app-add-student-form',
+  templateUrl: './add-student-form.component.html',
+  styleUrls: ['./add-student-form.component.css']
 })
-export class AddStudentPageComponent {
+export class AddStudentFormComponent {
 
   constructor(
     private studentNagigatorService: StudentNavigatorService,

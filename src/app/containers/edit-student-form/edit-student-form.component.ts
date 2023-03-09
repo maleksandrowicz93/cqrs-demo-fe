@@ -1,16 +1,16 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ErrorMessage } from '../enums/error-message';
-import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
-import { HttpStudentService } from '../services/http-student.service';
-import { StudentNavigatorService } from '../services/student-navigator.service';
+import { ErrorMessage } from '../../enums/error-message';
+import { SaveStudentRequest } from '../../interfaces/SaveStudentRequest';
+import { HttpStudentService } from '../../services/http-student.service';
+import { StudentNavigatorService } from '../../services/student-navigator.service';
 
 @Component({
-  selector: 'app-edit-student-page',
-  templateUrl: './edit-student-page.component.html',
-  styleUrls: ['./edit-student-page.component.css']
+  selector: 'app-edit-student-form',
+  templateUrl: './edit-student-form.component.html',
+  styleUrls: ['./edit-student-form.component.css']
 })
-export class EditStudentPageComponent implements OnInit {
+export class EditStudentFormComponent implements OnInit {
 
   studentId = "";
 
