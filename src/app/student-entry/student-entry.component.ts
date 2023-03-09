@@ -1,29 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
-import { StudentNavigatorService } from '../services/student-navigator.service';
 
 @Component({
   selector: 'app-student-entry',
   templateUrl: './student-entry.component.html',
   styleUrls: ['./student-entry.component.css']
 })
-export class StudentEntryComponent implements OnInit {
+export class StudentEntryComponent {
 
   @Input()
   index = 0;
-  
+
   @Input()
   student = {} as StudentIdentifiaction;
 
-  studentId = "";
+  @Output()
+  detailsWanted = new EventEmitter<string>();
 
-  constructor(private studentNavigatorService: StudentNavigatorService) { }
-
-  ngOnInit(): void {
-    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
-  }
+  constructor() { }
 
   showDetails(): void {
-    this.studentNavigatorService.toStudentPage(this.studentId);
+    this.detailsWanted.emit(this.student.id);
   }
 }

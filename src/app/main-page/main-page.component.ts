@@ -59,6 +59,10 @@ export class MainPageComponent implements OnInit {
     this.fetchStudents();
   }
 
+  showDetails(studentId: string): void {
+    this.studentNavigatorService.toStudentPage(studentId);
+  }
+
   clear(): void {
     this.students.length = 0;
   }

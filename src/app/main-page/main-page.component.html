@@ -7,7 +7,9 @@
     <p>Students list:</p>
     <ul>
         <li *ngFor="let student of students, let i = index">
-            <app-student-entry [index]="pageNumber * pageSize + i" [student]="student"></app-student-entry>
+            <app-student-entry [index]="pageNumber * pageSize + i" [student]="student" 
+                (detailsWanted)="showDetails(student.id)">
+            </app-student-entry>
         </li>
     </ul>
     <button (click)="clear()">Clear</button>
