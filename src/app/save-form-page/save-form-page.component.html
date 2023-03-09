@@ -1,4 +1,4 @@
-<app-close-button [previousPage]="previousPage"></app-close-button>
+<app-close-button (pageClosed)="close()"></app-close-button>
 <div>
     <label>email: </label>
     <input type="text" [(ngModel)]="email">

@@ -1,30 +1,34 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ErrorMessage } from '../enums/error-message';
-import { Page } from '../enums/page';
 import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 import { HttpStudentService } from '../services/http-student.service';
-import { PageLoaderService } from '../services/page-loader.service';
+import { StudentNavigatorService } from '../services/student-navigator.service';
 
 @Component({
   selector: 'app-edit-student-page',
   templateUrl: './edit-student-page.component.html',
   styleUrls: ['./edit-student-page.component.css']
 })
-export class EditStudentPageComponent {
+export class EditStudentPageComponent implements OnInit {
 
-  studentId = this.pageLoaderService.getCurrentStudentId();
+  studentId = "";
 
-  page = Page;
+  constructor(
+    private studentNavigatorService: StudentNavigatorService,
+    private httpStudentService: HttpStudentService
+  ) { }
 
-  constructor(private pageLoaderService: PageLoaderService, private httpStudentService: HttpStudentService) { }
+  ngOnInit(): void {
+    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
+  }
 
   editStudent(id: string, student: SaveStudentRequest): void {
     this.httpStudentService.editStudent(id, student).subscribe({
       next: response => {
         console.log("Student updated with new data:");
         console.log(response);
-        this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
+        this.studentNavigatorService.toStudentPage(this.studentId);
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
@@ -40,5 +44,9 @@ export class EditStudentPageComponent {
         }
       }
     });
+  }
+
+  close(): void {
+    this.studentNavigatorService.toStudentPage(this.studentId);
   }
 }

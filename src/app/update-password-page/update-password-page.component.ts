@@ -1,28 +1,30 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { ErrorMessage } from '../enums/error-message';
 import { FormError } from '../enums/form-error';
-import { Page } from '../enums/page';
 import { HttpStudentService } from '../services/http-student.service';
-import { PageLoaderService } from '../services/page-loader.service';
+import { StudentNavigatorService } from '../services/student-navigator.service';
 
 @Component({
   selector: 'app-update-password-page',
   templateUrl: './update-password-page.component.html',
   styleUrls: ['./update-password-page.component.css']
 })
-export class UpdatePasswordPageComponent implements DoCheck {
+export class UpdatePasswordPageComponent implements OnInit, DoCheck {
 
-  page = Page;
-
-  studentId = this.pageLoaderService.getCurrentStudentId();
-
+  studentId = "";
   password = "";
   confirmedPassword = "";
-
   errors = new Set<FormError>();
 
-  constructor(private pageLoaderService: PageLoaderService, private httpStudentService: HttpStudentService) { }
+  constructor(
+    private studentNavigatorService: StudentNavigatorService,
+    private httpStudentService: HttpStudentService
+  ) { }
+
+  ngOnInit(): void {
+    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
+  }
 
   ngDoCheck(): void {
     this.validateInput(FormError.BLANK_PASSWORD, () => this.password.length > 0);
@@ -47,16 +49,16 @@ export class UpdatePasswordPageComponent implements DoCheck {
     this.confirmedPassword = "";
   }
 
-  confirm(id: string): void {
-    this.httpStudentService.updatePassword(id, this.password).subscribe({
+  confirm(): void {
+    this.httpStudentService.updatePassword(this.studentId, this.password).subscribe({
       next: response => {
         console.log("Password updated for:");
         console.log(response);
-        this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
+        this.studentNavigatorService.toStudentPage(this.studentId);
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
-        switch(error.status) {
+        switch (error.status) {
           case HttpStatusCode.BadRequest:
             alert(ErrorMessage.INVALID_CREDENTIALS);
             break;
@@ -68,5 +70,9 @@ export class UpdatePasswordPageComponent implements DoCheck {
         }
       }
     });
+  }
+
+  close(): void {
+    this.studentNavigatorService.toStudentPage(this.studentId);
   }
 }

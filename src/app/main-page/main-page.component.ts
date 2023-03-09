@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { ErrorMessage } from '../enums/error-message';
-import { Page } from '../enums/page';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
 import { HttpStudentService } from '../services/http-student.service';
-import { PageLoaderService } from '../services/page-loader.service';
+import { StudentNavigatorService } from '../services/student-navigator.service';
 
 @Component({
   selector: 'app-main-page',
@@ -20,19 +20,22 @@ export class MainPageComponent implements OnInit {
   pageSize = this.sizes[this.defaultSizeIndex];
   pageNumber = 0;
 
-  constructor(private pageLoaderService: PageLoaderService, private httpStudentService: HttpStudentService) { }
+  constructor(
+    private studentNavigatorService: StudentNavigatorService,
+    private httpStudentService: HttpStudentService
+  ) { }
 
   ngOnInit(): void {
-    this.fetchUsers();
+    this.fetchStudents();
   }
 
-  private fetchUsers(): void {
+  private fetchStudents(): void {
     this.httpStudentService.getAllStudents().subscribe({
       next: list => {
         console.log("Students page laoded:");
         console.log(list);
         this.students = list;
-      }, 
+      },
       error: (error: HttpErrorResponse) => {
         console.error(error);
         alert(ErrorMessage.UNKNOWN_ERROR);
@@ -40,12 +43,12 @@ export class MainPageComponent implements OnInit {
     });
   }
 
-  adduser(): void {
-    this.pageLoaderService.setCurrentPage(Page.ADD_FORM);
+  addStudent(): void {
+    this.studentNavigatorService.toAddStudentPage();
   }
 
-  loadUsers(): void {
-    this.fetchUsers();
+  loadStudents(): void {
+    this.fetchStudents();
   }
 
   changeSize(selectedValue: Event): void {

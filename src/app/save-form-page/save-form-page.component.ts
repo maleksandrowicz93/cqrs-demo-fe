@@ -1,6 +1,5 @@
-import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Output } from '@angular/core';
 import { FormError } from '../enums/form-error';
-import { Page } from '../enums/page';
 import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 
 @Component({
@@ -10,11 +9,11 @@ import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 })
 export class SaveFormPageComponent implements DoCheck {
 
-  @Input()
-  previousPage = Page.MAIN_PAGE;
-
   @Output()
   studentConfirmed = new EventEmitter<SaveStudentRequest>();
+  
+  @Output()
+  pageClosed = new EventEmitter<void>();
 
   email = "";
   password = "";
@@ -63,5 +62,9 @@ export class SaveFormPageComponent implements DoCheck {
       lastName: this.lastName,
       birthDate: this.birthDate
     });
+  }
+
+  close(): void {
+    this.pageClosed.emit();
   }
 }

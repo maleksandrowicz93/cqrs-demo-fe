@@ -1,6 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { Page } from '../enums/page';
-import { PageLoaderService } from '../services/page-loader.service';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-close-button',
@@ -9,12 +7,12 @@ import { PageLoaderService } from '../services/page-loader.service';
 })
 export class CloseButtonComponent {
 
-  @Input()
-  previousPage = Page.MAIN_PAGE;
+  @Output()
+  pageClosed = new EventEmitter<void>();
 
-  constructor(private pageLoaderService: PageLoaderService) {}
+  constructor() { }
 
   close(): void {
-    this.pageLoaderService.setCurrentPage(this.previousPage);
+    this.pageClosed.emit();
   }
 }

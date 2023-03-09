@@ -1,25 +1,29 @@
-import { Component, Input } from '@angular/core';
-import { Page } from '../enums/page';
+import { Component, Input, OnInit } from '@angular/core';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
-import { PageLoaderService } from '../services/page-loader.service';
+import { StudentNavigatorService } from '../services/student-navigator.service';
 
 @Component({
   selector: 'app-student-entry',
   templateUrl: './student-entry.component.html',
   styleUrls: ['./student-entry.component.css']
 })
-export class StudentEntryComponent {
+export class StudentEntryComponent implements OnInit {
 
   @Input()
   index = 0;
-
+  
   @Input()
   student = {} as StudentIdentifiaction;
 
-  constructor(private pageLoaderService: PageLoaderService) {}
+  studentId = "";
 
-  showDetails(studentId: string): void {
-    this.pageLoaderService.setCurrentStudentId(studentId);
-    this.pageLoaderService.setCurrentPage(Page.STUDENT_PAGE);
+  constructor(private studentNavigatorService: StudentNavigatorService) { }
+
+  ngOnInit(): void {
+    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
+  }
+
+  showDetails(): void {
+    this.studentNavigatorService.toStudentPage(this.studentId);
   }
 }

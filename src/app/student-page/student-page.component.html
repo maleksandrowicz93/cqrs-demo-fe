@@ -1,4 +1,4 @@
-<app-close-button [previousPage]="page.MAIN_PAGE"></app-close-button>
+<app-close-button (pageClosed)="close()"></app-close-button>
 <div *ngIf="student.id">
     <div>
         <p>id: {{student.id}}</p>

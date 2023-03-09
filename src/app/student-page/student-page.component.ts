@@ -1,10 +1,9 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ErrorMessage } from '../enums/error-message';
-import { Page } from '../enums/page';
 import { StudentDto } from '../interfaces/StudentDto';
 import { HttpStudentService } from '../services/http-student.service';
-import { PageLoaderService } from '../services/page-loader.service';
+import { StudentNavigatorService } from '../services/student-navigator.service';
 
 @Component({
   selector: 'app-student-page',
@@ -13,41 +12,42 @@ import { PageLoaderService } from '../services/page-loader.service';
 })
 export class StudentPageComponent implements OnInit {
 
-  page = Page;
-
+  studentId = "";
   student = {} as StudentDto;
 
-  constructor(private pageLoaderService: PageLoaderService, private httpStudentSerice: HttpStudentService) { }
+  constructor(
+    private studentNavigatorService: StudentNavigatorService,
+    private httpStudentSerice: HttpStudentService
+  ) { }
 
   ngOnInit(): void {
-    this.pageLoaderService.getCurrentStudentId().subscribe(id => {
-      this.httpStudentSerice.getStudentById(id).subscribe({
-        next: student => {
-          console.log("Student fetched:")
-          console.log(student);
-          this.student = student;
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error(error);
-          this.student = {} as StudentDto;
-          switch (error.status) {
-            case HttpStatusCode.NotFound:
-              alert(ErrorMessage.STUDENT_NOT_FOUND);
-              break;
-            default:
-              alert(ErrorMessage.UNKNOWN_ERROR);
-          }
+    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
+    this.httpStudentSerice.getStudentById(this.studentId).subscribe({
+      next: student => {
+        console.log("Student fetched:")
+        console.log(student);
+        this.student = student;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+        this.student = {} as StudentDto;
+        switch (error.status) {
+          case HttpStatusCode.NotFound:
+            alert(ErrorMessage.STUDENT_NOT_FOUND);
+            break;
+          default:
+            alert(ErrorMessage.UNKNOWN_ERROR);
         }
-      });  
+      }
     });
   }
 
   updatePassword(): void {
-    this.pageLoaderService.setCurrentPage(Page.UPDATE_PASSWORD_FORM);
+    this.studentNavigatorService.toUpdatePasswordPage(this.studentId);
   }
 
   editStudent(): void {
-    this.pageLoaderService.setCurrentPage(Page.EDIT_FORM);
+    this.studentNavigatorService.toEditDataPage(this.studentId);
   }
 
   deleteStudent(): void {
@@ -58,13 +58,17 @@ export class StudentPageComponent implements OnInit {
           console.log(message);
           alert(message);
           this.student = {} as StudentDto;
-          this.pageLoaderService.setCurrentPage(Page.MAIN_PAGE);
+          this.studentNavigatorService.toMainPage();
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);
           alert(ErrorMessage.UNKNOWN_ERROR);
         }
       });
-    } 
+    }
+  }
+
+  close(): void {
+    this.studentNavigatorService.toMainPage();
   }
 }

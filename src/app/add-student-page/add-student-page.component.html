@@ -1,1 +1,1 @@
-<app-save-form-page [previousPage]="page.MAIN_PAGE" (studentConfirmed)="addStudent($event)"></app-save-form-page>
+<app-save-form-page (pageClosed)="close()" (studentConfirmed)="addStudent($event)"></app-save-form-page>
