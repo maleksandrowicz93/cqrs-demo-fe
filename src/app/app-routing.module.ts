@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddStudentFormComponent } from './containers/add-student-form/add-student-form.component';
-import { EditStudentFormComponent } from './containers/edit-student-form/edit-student-form.component';
-import { StudentsListComponent } from './containers/students-list/students-list.component';
-import { StudentDetailsComponent } from './containers/student-details/student-details.component';
-import { UpdatePasswordFormComponent } from './containers/update-password-form/update-password-form.component';
+import { MainPageComponent } from './pages/main-page/main-page.component';
+import { StudentPageComponent } from './pages/student-page/student-page.component';
+import { AddStudentPageComponent } from './pages/add-student-page/add-student-page.component';
+import { EditStudentPageComponent } from './pages/edit-student-page/edit-student-page.component';
+import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
 
 const routes: Routes = [
-  { path: 'add-student', component: AddStudentFormComponent },
+  { path: 'add-student', component: AddStudentPageComponent },
   {
     path: 'students', 
-    component: StudentsListComponent,
+    component: MainPageComponent,
     children: [{ 
       path: ':id', 
-      component: StudentDetailsComponent, 
+      component: StudentPageComponent, 
       children: [
-        { path: 'edit-data', component: EditStudentFormComponent }, 
-        { path: 'update-password', component: UpdatePasswordFormComponent }
+        { path: 'edit-data', component: EditStudentPageComponent }, 
+        { path: 'update-password', component: UpdatePasswordPageComponent }
       ]
     }]
   },
