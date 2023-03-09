@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SaveStudentRequest } from '../interfaces/SaveStudentRequest';
 import { StudentDto } from '../interfaces/StudentDto';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
+import { StudentsPage } from '../interfaces/StudentsPage';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,12 @@ export class HttpStudentService {
 
   constructor(private http: HttpClient) { }
 
-  getAllStudents(): Observable<Array<StudentIdentifiaction>> {
-    return this.http.get<Array<StudentIdentifiaction>>(this.url);
+  getStudentsPage(page: number, size: number): Observable<StudentsPage> {
+    let params = new HttpParams({fromObject: {
+      page: page,
+      size: size
+    }});
+    return this.http.get<StudentsPage>(this.url, { params: params });
   }
 
   getStudentById(id: string): Observable<StudentDto> {

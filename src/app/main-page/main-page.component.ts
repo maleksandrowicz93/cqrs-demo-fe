@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { ErrorMessage } from '../enums/error-message';
 import { StudentIdentifiaction } from '../interfaces/StudentIdentifiaction';
 import { HttpStudentService } from '../services/http-student.service';
@@ -13,12 +12,12 @@ import { StudentNavigatorService } from '../services/student-navigator.service';
 })
 export class MainPageComponent implements OnInit {
 
-  readonly defaultSizeIndex = 1;
-  readonly sizes = [1, 5, 10, 20];
+  readonly sizes = [5, 10, 20, 50];
 
   students = new Array<StudentIdentifiaction>();
-  pageSize = this.sizes[this.defaultSizeIndex];
+  totalPages = 0;
   pageNumber = 0;
+  pageSize = this.sizes[1];
 
   constructor(
     private studentNavigatorService: StudentNavigatorService,
@@ -30,11 +29,12 @@ export class MainPageComponent implements OnInit {
   }
 
   private fetchStudents(): void {
-    this.httpStudentService.getAllStudents().subscribe({
-      next: list => {
+    this.httpStudentService.getStudentsPage(this.pageNumber, this.pageSize).subscribe({
+      next: page => {
         console.log("Students page laoded:");
-        console.log(list);
-        this.students = list;
+        console.log(page);
+        this.students = page.students;
+        this.totalPages = page.totalPages;
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
@@ -48,6 +48,7 @@ export class MainPageComponent implements OnInit {
   }
 
   loadStudents(): void {
+    this.pageNumber = 0;
     this.fetchStudents();
   }
 
@@ -55,6 +56,7 @@ export class MainPageComponent implements OnInit {
     let selectedSize = (selectedValue.target as HTMLSelectElement).value;
     this.pageSize = Number.parseInt(selectedSize);
     this.pageNumber = 0;
+    this.fetchStudents();
   }
 
   clear(): void {
@@ -66,19 +68,16 @@ export class MainPageComponent implements OnInit {
   }
 
   isNextPageDisabled(): boolean {
-    let studentsNumber = this.students.length;
-    let studentsToPageSize = Math.floor(studentsNumber / this.pageSize);
-    let maxPage = studentsNumber <= this.pageSize || studentsNumber % this.pageSize == 0
-      ? studentsToPageSize - 1
-      : studentsToPageSize;
-    return this.pageNumber >= maxPage;
+    return this.pageNumber >= this.totalPages - 1;
   }
 
   previousPage(): void {
     this.pageNumber--;
+    this.fetchStudents();
   }
 
   nextPage(): void {
     this.pageNumber++;
+    this.fetchStudents();
   }
 }

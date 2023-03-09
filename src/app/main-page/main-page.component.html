@@ -4,12 +4,9 @@
     <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
 </select>
 <div *ngIf="students.length > 0">
-    <p>Number of students: {{students.length}}</p>
+    <p>Students list:</p>
     <ul>
-        <li *ngFor="let student of students | paginate: { 
-            itemsPerPage: pageSize, 
-            currentPage: pageNumber + 1 
-        }, let i = index">
+        <li *ngFor="let student of students, let i = index">
             <app-student-entry [index]="pageNumber * pageSize + i" [student]="student"></app-student-entry>
         </li>
     </ul>
