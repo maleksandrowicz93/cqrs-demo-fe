@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, DoCheck, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ErrorMessage } from '../../enums/error-message';
 import { FormError } from '../../enums/form-error';
 import { HttpStudentService } from '../../services/http-student.service';
@@ -18,12 +19,14 @@ export class UpdatePasswordFormComponent implements OnInit, DoCheck {
   errors = new Set<FormError>();
 
   constructor(
+    private route: ActivatedRoute,
     private studentNavigatorService: StudentNavigatorService,
     private httpStudentService: HttpStudentService
   ) { }
 
   ngOnInit(): void {
-    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
+    let idFromPath = this.route.snapshot.paramMap.get("id");
+    this.studentId = idFromPath ? idFromPath : "";
   }
 
   ngDoCheck(): void {

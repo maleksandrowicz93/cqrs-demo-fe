@@ -7,21 +7,29 @@ import { EditStudentPageComponent } from './pages/edit-student-page/edit-student
 import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
 
 const routes: Routes = [
-  { path: 'add-student', component: AddStudentPageComponent },
   {
-    path: 'students', 
-    component: MainPageComponent,
-    children: [{ 
-      path: ':id', 
-      component: StudentPageComponent, 
-      children: [
-        { path: 'edit-data', component: EditStudentPageComponent }, 
-        { path: 'update-password', component: UpdatePasswordPageComponent }
-      ]
-    }]
+    path: 'add-student',
+    component: AddStudentPageComponent
   },
   {
-    path: '**', redirectTo: 'students'
+    path: 'students',
+    component: MainPageComponent,
+  },
+  {
+    path: 'students/:id', 
+    component: StudentPageComponent
+  },
+  {
+    path: 'students/:id/edit-data', 
+    component: EditStudentPageComponent
+  },
+  {
+    path: 'students/:id/update-password', 
+    component: UpdatePasswordPageComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'students'
   }
 ];
 

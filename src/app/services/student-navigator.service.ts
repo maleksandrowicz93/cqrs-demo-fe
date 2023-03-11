@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +8,10 @@ export class StudentNavigatorService {
 
   private readonly ADD_STUDENT = "/add-student";
   private readonly STUDENTS = "/students";
-  private readonly EDIT_DATA = "/edit-data";
-  private readonly UPDATE_PASSWORD = "/update-password";
+  private readonly EDIT_DATA = "edit-data";
+  private readonly UPDATE_PASSWORD = "update-password";
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
-
-  getStudentIdFromPath(): string {
-    let id = this.route.snapshot.paramMap.get("id");
-    return id ? id : "";
-  }
+  constructor(private router: Router) { }
 
   toAddStudentPage(): Promise<boolean> {
     return this.router.navigate([this.ADD_STUDENT]);
@@ -26,15 +21,15 @@ export class StudentNavigatorService {
     return this.router.navigate([this.STUDENTS]);
   }
 
-  toStudentPage(studentId: string): Promise<boolean> {
-    return this.router.navigate([this.STUDENTS, { id: studentId}]);
+  toStudentPage(studentId: string): Promise<boolean> {  
+    return this.router.navigate([this.STUDENTS, studentId]);
   }
 
   toEditDataPage(studentId: string): Promise<boolean> {
-    return this.router.navigate([this.STUDENTS, { id: studentId }, this.EDIT_DATA]);
+    return this.router.navigate([this.STUDENTS, studentId, this.EDIT_DATA]);
   }
 
   toUpdatePasswordPage(studentId: string): Promise<boolean> {
-    return this.router.navigate([this.STUDENTS, { id: studentId }, this.UPDATE_PASSWORD]);
+    return this.router.navigate([this.STUDENTS, studentId, this.UPDATE_PASSWORD]);
   }
 }

@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ErrorMessage } from '../../enums/error-message';
 import { StudentDto } from '../../interfaces/StudentDto';
 import { HttpStudentService } from '../../services/http-student.service';
@@ -10,18 +11,28 @@ import { StudentNavigatorService } from '../../services/student-navigator.servic
   templateUrl: './student-details.component.html',
   styleUrls: ['./student-details.component.css']
 })
-export class StudentDetailsComponent implements OnInit {
+export class StudentDetailsComponent implements OnInit, AfterContentInit, AfterViewInit {
 
   studentId = "";
   student = {} as StudentDto;
 
   constructor(
+    private route: ActivatedRoute,
     private studentNavigatorService: StudentNavigatorService,
     private httpStudentSerice: HttpStudentService
   ) { }
 
+  ngAfterContentInit(): void {
+    this.ngOnInit();
+  }
+
+  ngAfterViewInit(): void {
+    this.ngOnInit();
+  }
+
   ngOnInit(): void {
-    this.studentId = this.studentNavigatorService.getStudentIdFromPath();
+    let idFromPath = this.route.snapshot.paramMap.get("id");
+    this.studentId = idFromPath ? idFromPath : "";
     this.httpStudentSerice.getStudentById(this.studentId).subscribe({
       next: student => {
         console.log("Student fetched:")
