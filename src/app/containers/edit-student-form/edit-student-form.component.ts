@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { first, Subscription } from 'rxjs';
 import { SaveStudentRequest } from '../../interfaces/SaveStudentRequest';
 import { HttpStudentService } from '../../services/http-student.service';
 import { StudentNavigatorService } from '../../services/student-navigator.service';
@@ -9,9 +10,11 @@ import { StudentNavigatorService } from '../../services/student-navigator.servic
   templateUrl: './edit-student-form.component.html',
   styleUrls: ['./edit-student-form.component.css']
 })
-export class EditStudentFormComponent implements OnInit {
+export class EditStudentFormComponent implements OnInit, OnDestroy {
 
   studentId = "";
+
+  private studentEditSubscription$ = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -25,13 +28,19 @@ export class EditStudentFormComponent implements OnInit {
   }
 
   editStudent(student: SaveStudentRequest): void {
-    this.httpStudentService.editStudent(this.studentId, student).subscribe({
-      next: () => this.studentNavigatorService.toStudentPage(this.studentId),
-      error: error => alert(error)
-    });
+    this.httpStudentService.editStudent(this.studentId, student)
+      .pipe(first())
+      .subscribe({
+        next: () => this.studentNavigatorService.toStudentPage(this.studentId),
+        error: error => alert(error)
+      });
   }
 
   close(): void {
     this.studentNavigatorService.toStudentPage(this.studentId);
+  }
+
+  ngOnDestroy(): void {
+    this.studentEditSubscription$.unsubscribe();
   }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { first, Subscription } from 'rxjs';
 import { StudentDto } from '../../interfaces/StudentDto';
 import { HttpStudentService } from '../../services/http-student.service';
 import { StudentNavigatorService } from '../../services/student-navigator.service';
@@ -9,10 +10,13 @@ import { StudentNavigatorService } from '../../services/student-navigator.servic
   templateUrl: './student-details.component.html',
   styleUrls: ['./student-details.component.css']
 })
-export class StudentDetailsComponent implements OnInit {
+export class StudentDetailsComponent implements OnInit, OnDestroy {
 
   studentId = "";
   student = {} as StudentDto;
+
+  private studentDetailsSubscription$ = new Subscription();
+  private studentDeletionSubscription$ = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -23,10 +27,12 @@ export class StudentDetailsComponent implements OnInit {
   ngOnInit(): void {
     let idFromPath = this.route.snapshot.paramMap.get("id");
     this.studentId = idFromPath ? idFromPath : "";
-    this.httpStudentSerice.getStudentById(this.studentId).subscribe({
-      next: student => this.student = student,
-      error: error => alert(error)
-    });
+    this.studentDetailsSubscription$ = this.httpStudentSerice.getStudentById(this.studentId)
+      .pipe(first())
+      .subscribe({
+        next: student => this.student = student,
+        error: error => alert(error)
+      });
   }
 
   updatePassword(): void {
@@ -39,18 +45,25 @@ export class StudentDetailsComponent implements OnInit {
 
   deleteStudent(): void {
     if (confirm("Are you sure you want to delete this student?")) {
-      this.httpStudentSerice.deleteStudent(this.student.id).subscribe({
-        next: () => {
-          alert("Student deleted successfully");
-          this.student = {} as StudentDto;
-          this.studentNavigatorService.toMainPage();
-        },
-        error: error => alert(error)
-      });
+      this.studentDeletionSubscription$ = this.httpStudentSerice.deleteStudent(this.student.id)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            alert("Student deleted successfully");
+            this.student = {} as StudentDto;
+            this.studentNavigatorService.toMainPage();
+          },
+          error: error => alert(error)
+        });
     }
   }
 
   close(): void {
     this.studentNavigatorService.toMainPage();
+  }
+
+  ngOnDestroy(): void {
+    this.studentDetailsSubscription$.unsubscribe();
+    this.studentDeletionSubscription$.unsubscribe();
   }
 }

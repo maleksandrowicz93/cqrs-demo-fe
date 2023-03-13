@@ -1,5 +1,6 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { first, Subscription } from 'rxjs';
 import { FormError } from '../../enums/form-error';
 import { HttpStudentService } from '../../services/http-student.service';
 import { StudentNavigatorService } from '../../services/student-navigator.service';
@@ -9,12 +10,14 @@ import { StudentNavigatorService } from '../../services/student-navigator.servic
   templateUrl: './update-password-form.component.html',
   styleUrls: ['./update-password-form.component.css']
 })
-export class UpdatePasswordFormComponent implements OnInit, DoCheck {
+export class UpdatePasswordFormComponent implements OnInit, DoCheck, OnDestroy {
 
   studentId = "";
   password = "";
   confirmedPassword = "";
   errors = new Set<FormError>();
+
+  private passwordUpdateSubscription$ = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -51,13 +54,19 @@ export class UpdatePasswordFormComponent implements OnInit, DoCheck {
   }
 
   confirm(): void {
-    this.httpStudentService.updatePassword(this.studentId, this.password).subscribe({
-      next: () => this.studentNavigatorService.toStudentPage(this.studentId),
-      error: error => alert(error)
-    });
+    this.passwordUpdateSubscription$ = this.httpStudentService.updatePassword(this.studentId, this.password)
+      .pipe(first())
+      .subscribe({
+        next: () => this.studentNavigatorService.toStudentPage(this.studentId),
+        error: error => alert(error)
+      });
   }
 
   close(): void {
     this.studentNavigatorService.toStudentPage(this.studentId);
+  }
+
+  ngOnDestroy(): void {
+    this.passwordUpdateSubscription$.unsubscribe();
   }
 }
