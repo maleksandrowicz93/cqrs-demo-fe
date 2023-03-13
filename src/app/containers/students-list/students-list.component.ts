@@ -18,7 +18,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   pageNumber = 0;
   pageSize = this.sizes[1];
 
-  private studentPageSubscription$ = new Subscription();
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private studentNavigatorService: StudentNavigatorService,
@@ -30,7 +30,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
   private fetchStudents(): void {
-    this.studentPageSubscription$ = this.httpStudentService.getStudentsPage(this.pageNumber, this.pageSize)
+    let sub = this.httpStudentService.getStudentsPage(this.pageNumber, this.pageSize)
       .pipe(first())
       .subscribe({
         next: page => {
@@ -38,6 +38,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
           this.totalPages = page.totalPages;
         }
       });
+    this.subscriptions.push(sub);
   }
 
   addStudent(): void {
@@ -85,6 +86,6 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.studentPageSubscription$.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

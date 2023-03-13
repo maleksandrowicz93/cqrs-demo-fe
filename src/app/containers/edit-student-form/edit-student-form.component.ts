@@ -14,7 +14,7 @@ export class EditStudentFormComponent implements OnInit, OnDestroy {
 
   studentId = "";
 
-  private studentEditSubscription$ = new Subscription();
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private route: ActivatedRoute,
@@ -28,12 +28,13 @@ export class EditStudentFormComponent implements OnInit, OnDestroy {
   }
 
   editStudent(student: SaveStudentRequest): void {
-    this.httpStudentService.editStudent(this.studentId, student)
+    let sub = this.httpStudentService.editStudent(this.studentId, student)
       .pipe(first())
       .subscribe({
         next: () => this.studentNavigatorService.toStudentPage(this.studentId),
         error: error => alert(error)
       });
+    this.subscriptions.push(sub);
   }
 
   close(): void {
@@ -41,6 +42,6 @@ export class EditStudentFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.studentEditSubscription$.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

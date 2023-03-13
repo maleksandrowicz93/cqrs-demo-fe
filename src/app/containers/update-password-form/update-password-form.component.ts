@@ -17,7 +17,7 @@ export class UpdatePasswordFormComponent implements OnInit, DoCheck, OnDestroy {
   confirmedPassword = "";
   errors = new Set<FormError>();
 
-  private passwordUpdateSubscription$ = new Subscription();
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private route: ActivatedRoute,
@@ -54,12 +54,13 @@ export class UpdatePasswordFormComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   confirm(): void {
-    this.passwordUpdateSubscription$ = this.httpStudentService.updatePassword(this.studentId, this.password)
+    let sub = this.httpStudentService.updatePassword(this.studentId, this.password)
       .pipe(first())
       .subscribe({
         next: () => this.studentNavigatorService.toStudentPage(this.studentId),
         error: error => alert(error)
       });
+    this.subscriptions.push(sub);
   }
 
   close(): void {
@@ -67,6 +68,6 @@ export class UpdatePasswordFormComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.passwordUpdateSubscription$.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

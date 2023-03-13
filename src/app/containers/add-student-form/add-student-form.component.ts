@@ -11,7 +11,7 @@ import { StudentNavigatorService } from '../../services/student-navigator.servic
 })
 export class AddStudentFormComponent implements OnDestroy {
 
-  private studentSaveSubscription$ = new Subscription();
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private studentNagigatorService: StudentNavigatorService,
@@ -19,12 +19,13 @@ export class AddStudentFormComponent implements OnDestroy {
   ) { }
 
   addStudent(student: SaveStudentRequest): void {
-    this.studentSaveSubscription$ = this.httpStudentService.addStudent(student)
+    let sub = this.httpStudentService.addStudent(student)
       .pipe(first())
       .subscribe({
         next: () => this.studentNagigatorService.toMainPage(),
         error: error => alert(error)
       });
+    this.subscriptions.push(sub);
   }
 
   close(): void {
@@ -32,6 +33,6 @@ export class AddStudentFormComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.studentSaveSubscription$.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

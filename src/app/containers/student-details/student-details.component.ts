@@ -15,8 +15,7 @@ export class StudentDetailsComponent implements OnInit, OnDestroy {
   studentId = "";
   student = {} as StudentDto;
 
-  private studentDetailsSubscription$ = new Subscription();
-  private studentDeletionSubscription$ = new Subscription();
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private route: ActivatedRoute,
@@ -27,12 +26,13 @@ export class StudentDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let idFromPath = this.route.snapshot.paramMap.get("id");
     this.studentId = idFromPath ? idFromPath : "";
-    this.studentDetailsSubscription$ = this.httpStudentSerice.getStudentById(this.studentId)
+    let sub = this.httpStudentSerice.getStudentById(this.studentId)
       .pipe(first())
       .subscribe({
         next: student => this.student = student,
         error: error => alert(error)
       });
+    this.subscriptions.push(sub);
   }
 
   updatePassword(): void {
@@ -45,7 +45,7 @@ export class StudentDetailsComponent implements OnInit, OnDestroy {
 
   deleteStudent(): void {
     if (confirm("Are you sure you want to delete this student?")) {
-      this.studentDeletionSubscription$ = this.httpStudentSerice.deleteStudent(this.student.id)
+      let sub = this.httpStudentSerice.deleteStudent(this.student.id)
         .pipe(first())
         .subscribe({
           next: () => {
@@ -55,6 +55,7 @@ export class StudentDetailsComponent implements OnInit, OnDestroy {
           },
           error: error => alert(error)
         });
+      this.subscriptions.push(sub);
     }
   }
 
@@ -63,7 +64,6 @@ export class StudentDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.studentDetailsSubscription$.unsubscribe();
-    this.studentDeletionSubscription$.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
