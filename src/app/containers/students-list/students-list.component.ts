@@ -53,7 +53,9 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     let selectedSize = (selectedValue.target as HTMLSelectElement).value;
     this.pageSize = Number.parseInt(selectedSize);
     this.pageNumber = 0;
-    this.fetchStudents();
+    if (this.students.length > 0) {
+      this.fetchStudents();
+    }
   }
 
   showDetails(studentId: string): void {
