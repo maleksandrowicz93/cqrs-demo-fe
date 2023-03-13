@@ -1,6 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ErrorMessage } from '../../enums/error-message';
 import { StudentIdentifiaction } from '../../interfaces/StudentIdentifiaction';
 import { HttpStudentService } from '../../services/http-student.service';
 import { StudentNavigatorService } from '../../services/student-navigator.service';
@@ -31,14 +29,8 @@ export class StudentsListComponent implements OnInit {
   private fetchStudents(): void {
     this.httpStudentService.getStudentsPage(this.pageNumber, this.pageSize).subscribe({
       next: page => {
-        console.log("Students page laoded:");
-        console.log(page);
         this.students = page.students;
         this.totalPages = page.totalPages;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-        alert(ErrorMessage.UNKNOWN_ERROR);
       }
     });
   }
